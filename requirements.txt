@@ -1,0 +1,3 @@
+ffmpeg_python==0.2.0
+numpy==1.23.5
+openai_whisper==20230314
