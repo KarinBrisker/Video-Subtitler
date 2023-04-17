@@ -19,8 +19,8 @@ def video_identity(video, lang1="en", lang2="en"):
 
 demo = gr.Interface(video_identity,
                     inputs=[gr.Video(),
-                            gr.components.Dropdown(label="Source Language", choices=LANGS, default="english"),
-                            gr.components.Dropdown(label="Target Language", choices=LANGS, default="english"),
+                            gr.components.Dropdown(label="Source Language", choices=LANGS),
+                            gr.components.Dropdown(label="Target Language", choices=LANGS),
                             ],
                     outputs="playable_video",
                     examples=[[
