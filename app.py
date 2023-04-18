@@ -23,7 +23,5 @@ demo = gr.Interface(video_identity,
                     description="This demo is a proof of concept for a video subtitler. "
                     )
 
-if __name__ == "__main__":
-    pipeline = Pipeline()
-
-    demo.launch()
+pipeline = Pipeline()
+demo.launch()
