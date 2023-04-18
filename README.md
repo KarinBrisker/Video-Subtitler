@@ -28,9 +28,9 @@ In this command, the `--video` flag specifies the path to the input video file, 
 
 ## Demo
 You can try out a demo of the video subtitler [here - add link!]().
-![input video](sample/demo_input.png)
-![translated video](sample/demo2.png)
-![translated video](sample/demo1.png)
+![input video](imgs/demo_input.png)
+![translated video](imgs/demo2.png)
+![translated video](imgs/demo1.png)
 
 
 ## Acknowledgements
