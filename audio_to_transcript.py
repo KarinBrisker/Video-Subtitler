@@ -1,6 +1,7 @@
 import os
 from typing import Dict
 
+import torch
 import whisper
 from whisper.utils import get_writer
 
@@ -9,10 +10,12 @@ import numpy as np  # for counting parameters
 from gradio_app import code2lang
 from utils import log
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
 
 class TranscribeAudio:
     def __init__(self):
-        self.model = whisper.load_model("base")
+        self.model = whisper.load_model("base", device=device)
         log(
             f"Model is {'multilingual' if self.model.is_multilingual else 'English-only'} "
             f"and has {sum(np.prod(p.shape) for p in self.model.parameters()):,} parameters."
@@ -24,13 +27,6 @@ class TranscribeAudio:
         options = dict(language=language, beam_size=5, best_of=5)
         transcribe_options = dict(task="transcribe", **options)
         result = self.model.transcribe(audio_file_path, **transcribe_options)
-        return result
-
-    def translate(self, audio_file_path, language="en"):
-        log(f"Translating {audio_file_path} to {code2lang[language]}")
-        options = dict(language=language, beam_size=5, best_of=5)
-        translate_options = dict(task="translate", **options)
-        result = self.model.transcribe(audio_file_path, **translate_options)
         return result
 
     def save_output(self, transcript_output: Dict, audio_file_path: str) -> str:
@@ -47,13 +43,9 @@ class TranscribeAudio:
 
         return f"{filename}.vtt"
 
-    def __call__(self, audio_file_path: str, output_dir: str, input_language: str = "en", output_language: str = "en") -> str:
-        transcript = self.transcribe(audio_file_path, input_language)
-        if input_language != output_language:
-            translated_transcript = self.translate(audio_file_path, output_language)
-            transcript_path = self.save_output(translated_transcript, audio_file_path)
-        else:
-            transcript_path = self.save_output(transcript, audio_file_path)
+    def __call__(self, audio_file_path: str, output_dir: str, input_language: str = "en") -> str:
+        transcript = self.transcribe(audio_file_path)
+        transcript_path = self.save_output(transcript, audio_file_path)
         return transcript_path
 
 
