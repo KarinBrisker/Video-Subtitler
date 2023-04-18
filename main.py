@@ -18,19 +18,6 @@ lang2code = {
 
 LANGS = sorted(lang2code.keys())
 
-parser = argparse.ArgumentParser(
-    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("video", type=str,
-                    help="video path to transcribe")
-parser.add_argument("--output_dir", "-o", type=str,
-                    default=".", help="directory to save the outputs")
-parser.add_argument("--input_language", type=str, default=None, choices=LANGS,
-                    help="language spoken in the video, skip to perform language detection")
-parser.add_argument("--output_language", type=str, default=None, choices=LANGS,
-                    help="required translation language")
-
-args = parser.parse_args()
-
 
 class Pipeline:
     def __init__(self):
@@ -57,5 +44,17 @@ class Pipeline:
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("video", type=str,
+                        help="video path to transcribe")
+    parser.add_argument("--output_dir", "-o", type=str,
+                        default=".", help="directory to save the outputs")
+    parser.add_argument("--input_language", type=str, default=None, choices=LANGS,
+                        help="language spoken in the video, skip to perform language detection")
+    parser.add_argument("--output_language", type=str, default=None, choices=LANGS,
+                        help="required translation language")
+
+    args = parser.parse_args()
     pipeline = Pipeline()
     pipeline(args.video, args.output_dir, args.input_language, args.output_language)
