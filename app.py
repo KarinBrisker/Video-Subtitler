@@ -19,7 +19,7 @@ demo = gr.Interface(video_identity,
                         os.path.join(os.path.dirname(__file__),
                                      "sample/iPhone_14_Pro.mp4"), "English"]],
                     cache_examples=True,
-                    title="Video Subtitler Demo",
+                    title="Video Subtitler Demo 🍿🍿🍿",
                     description="This demo is a proof of concept for a video subtitler. "
                     )
 
