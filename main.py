@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import subprocess
@@ -17,6 +18,19 @@ lang2code = {
 
 LANGS = sorted(lang2code.keys())
 
+parser = argparse.ArgumentParser(
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument("video", type=str,
+                    help="video path to transcribe")
+parser.add_argument("--output_dir", "-o", type=str,
+                    default=".", help="directory to save the outputs")
+parser.add_argument("--input_language", type=str, default=None, choices=LANGS,
+                    help="language spoken in the video, skip to perform language detection")
+parser.add_argument("--output_language", type=str, default=None, choices=LANGS,
+                    help="required translation language")
+
+args = parser.parse_args()
+
 
 class Pipeline:
     def __init__(self):
@@ -30,7 +44,8 @@ class Pipeline:
         audio_path = self.video_to_audio.convert(video_path)
         subtitle_path = self.audio_to_text(audio_path, output_path, input_language)
         if input_language != output_language:
-            subtitle_path = self.translator.translate(subtitle_path, lang2code[input_language], lang2code[output_language])
+            subtitle_path = self.translator.translate(subtitle_path, lang2code[input_language],
+                                                      lang2code[output_language])
         log(f"Embedding subtitles on input video and saves output video to {output_path}/output.mp4")
         # Use ffmpeg to add the subtitles to the input MP4 file and create the output MP4 file
 
@@ -43,4 +58,4 @@ class Pipeline:
 
 if __name__ == '__main__':
     pipeline = Pipeline()
-    pipeline("sample/iPhone_14_Pro.mp4", "sample", "en", "es")
+    pipeline(args.video, args.output_dir, args.input_language, args.output_language)

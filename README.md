@@ -1,5 +1,5 @@
-# Video Subtitler
-#### Adding Subtitles to Your Videos Made Easy
+§# Video Subtitler 🍿
+Adding Subtitles to Your Videos Made Easy 🎉
 
 
 ## Overview
@@ -20,11 +20,15 @@ This repository provides an automated solution for generating subtitles in multi
 The video-subtitler project provides a command-line interface for adding subtitles to videos in multiple languages. To use the project, you will need to have a video file and a text file containing the subtitles in the target languages. The following command will add subtitles to a video:
 
 ```
-python main.py --video /path/to/video.mp4 --subtitles /path/to/subtitles.txt --languages en fr es
+python main.py <path_to_video> --output_dir <output_directory> --input_language <input_language> --output_language <output_language>
 ```
 
+Make sure to replace `<path_to_video>` with the actual path to your video file, `<output_directory>` with the directory where you want to save the output file, `<input_language>` with the code of the language spoken in the video (or leave it blank for language detection), and `<output_language>` with the code of the language for the subtitles.
 
-In this command, the `--video` flag specifies the path to the input video file, the `--subtitles` flag specifies the path to the subtitles text file, and the `--languages` flag specifies the target languages for the subtitles.
+For example, if you have saved your video file as `myvideo.mp4` in the same directory as your Python file, and you want to generate Spanish subtitles for it, you can use the following command:
+```
+python main.py myvideo.mp4 --output_dir output --input_language 'English' --output_language 'Spanish'
+```
 
 ## Demo
 You can try out a demo of the video subtitler [here - add link!]().
@@ -40,7 +44,9 @@ You can try out a demo of the video subtitler [here - add link!]().
 - [Gradio](https://gradio.app/)
 
 ## Contributing
-Contributions to this repository are welcome! If you find a bug or have a feature request, please open an issue on the repository or submit a pull request.
+Contributions to this repository are welcome! 😇 
+
+If you find a bug or have a feature request, please open an issue on the repository or submit a pull request.
 
 
 ## License
