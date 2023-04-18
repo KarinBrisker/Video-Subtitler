@@ -1,4 +1,4 @@
-§# Video Subtitler 🍿
+# Video Subtitler 🍿
 Adding Subtitles to Your Videos Made Easy 🎉
 
 
