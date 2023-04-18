@@ -1,20 +1,12 @@
 import gradio as gr
 import os
-import json
-
-with open('resources/languages.json', 'r') as f:
-    code2lang = json.load(f)
-
-# language code lookup by name, with a few language aliases
-lang2code = {
-    **{language: code for code, language in code2lang.items()},
-}
-
-LANGS = sorted(lang2code.keys())
+from main import LANGS, Pipeline
 
 
-def video_identity(video, lang1="en", lang2="en"):
-    return video
+def video_identity(video, source_language="English", target_language="Spanish"):
+    video_path = pipeline(video, "sample", source_language, target_language)
+
+    return video_path
 
 
 demo = gr.Interface(video_identity,
@@ -25,11 +17,13 @@ demo = gr.Interface(video_identity,
                     outputs="playable_video",
                     examples=[[
                         os.path.join(os.path.dirname(__file__),
-                                     "sample/iPhone_14_Pro.mp4"), "en"]],
+                                     "sample/iPhone_14_Pro.mp4"), "English"]],
                     cache_examples=True,
                     title="Video Subtitler Demo",
                     description="This demo is a proof of concept for a video subtitler. "
                     )
 
 if __name__ == "__main__":
+    pipeline = Pipeline()
+
     demo.launch()

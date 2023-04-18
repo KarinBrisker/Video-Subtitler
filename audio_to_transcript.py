@@ -7,7 +7,6 @@ from whisper.utils import get_writer
 
 import numpy as np  # for counting parameters
 
-from gradio_app import code2lang
 from utils import log
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -23,7 +22,7 @@ class TranscribeAudio:
         self.options = {"max_line_width": 20, "max_line_count": 3, "highlight_words": True}
 
     def transcribe(self, audio_file_path: str, language: str = "en") -> Dict:
-        log(f"Transcribing {audio_file_path} in {code2lang[language]}")
+        log(f"Transcribing {audio_file_path} in {language}")
         options = dict(language=language, beam_size=5, best_of=5)
         transcribe_options = dict(task="transcribe", **options)
         result = self.model.transcribe(audio_file_path, **transcribe_options)

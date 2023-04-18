@@ -2,7 +2,6 @@ import os
 
 from googletrans import Translator
 
-from gradio_app import code2lang
 from utils import log
 
 
@@ -17,7 +16,7 @@ class MyTranslator:
 
         filename, ext = os.path.splitext(text_file_path)
         output_file_path = f"{filename}_translated{ext}"
-        log(f"Translating text to {code2lang[target_language]} and saving to {output_file_path}")
+        log(f"Translating text to {target_language} and saving to {output_file_path}")
         # Translate the text to the desired language
         output_text = self.translator.translate(input_text, dest=target_language).text
         # Write the translated text to the output file
