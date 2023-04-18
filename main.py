@@ -1,16 +1,25 @@
-# This is a sample Python script.
+import subprocess
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from audio_to_transcript import TranscribeAudio
+from utils import log
+from video_to_audio_converter import VideoToAudioConverter
 
 
-# Press the green button in the gutter to run the script.
+class Pipeline:
+    def __init__(self):
+        self.video_to_audio = VideoToAudioConverter()
+        self.audio_to_text = TranscribeAudio()
+
+    def __call__(self, video_path: str, output_path: str, input_language: str, output_language: str):
+        audio_path = self.video_to_audio.convert(video_path)
+        subtitle_path = self.audio_to_text(audio_path, output_path, input_language, output_language)
+        log(f"Embedding subtitles on input video and saves output video to {output_path}/output.mp4")
+        # Use ffmpeg to add the subtitles to the input MP4 file and create the output MP4 file
+        subtitles_cmd = ["ffmpeg", "-i", video_path, "-vf", f"subtitles={subtitle_path}", "-c:a", "copy",
+                         f"{output_path}/output.mp4"]
+        subprocess.run(subtitles_cmd, check=True)
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    pipeline = Pipeline()
+    pipeline("sample/iPhone_14_Pro.mp4", "sample", "en", "en")

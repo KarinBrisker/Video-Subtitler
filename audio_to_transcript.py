@@ -1,3 +1,6 @@
+import os
+from typing import Dict
+
 import whisper
 from whisper.utils import get_writer
 
@@ -16,7 +19,7 @@ class TranscribeAudio:
         )
         self.options = {"max_line_width": 20, "max_line_count": 3, "highlight_words": True}
 
-    def transcribe(self, audio_file_path, language="en"):
+    def transcribe(self, audio_file_path: str, language: str = "en") -> Dict:
         log(f"Transcribing {audio_file_path} in {code2lang[language]}")
         options = dict(language=language, beam_size=5, best_of=5)
         transcribe_options = dict(task="transcribe", **options)
@@ -30,19 +33,30 @@ class TranscribeAudio:
         result = self.model.transcribe(audio_file_path, **translate_options)
         return result
 
-    def save_output(self, output_path, transcript_output, audio):
-        log(f"Saving output to {output_path} directory")
+    def save_output(self, transcript_output: Dict, audio_file_path: str) -> str:
+        filename, ext = os.path.splitext(audio_file_path)
+        directory = os.path.dirname(filename)
+        log(f"Saving output to {directory} directory as {filename}.vtt")
         # Save as an SRT file
-        srt_writer = get_writer("srt", output_path)
-        srt_writer(transcript_output, audio, self.options)
+        srt_writer = get_writer("srt", directory)
+        srt_writer(transcript_output, audio_file_path, self.options)
 
         # Save as a VTT file
-        vtt_writer = get_writer("vtt", output_path)
-        vtt_writer(transcript_output, audio, self.options)
+        vtt_writer = get_writer("vtt", directory)
+        vtt_writer(transcript_output, audio_file_path, self.options)
+
+        return f"{filename}.vtt"
+
+    def __call__(self, audio_file_path: str, output_dir: str, input_language: str = "en", output_language: str = "en") -> str:
+        transcript = self.transcribe(audio_file_path, input_language)
+        if input_language != output_language:
+            translated_transcript = self.translate(audio_file_path, output_language)
+            transcript_path = self.save_output(translated_transcript, audio_file_path)
+        else:
+            transcript_path = self.save_output(transcript, audio_file_path)
+        return transcript_path
 
 
 if __name__ == '__main__':
     transcribe_audio = TranscribeAudio()
-    transcript = transcribe_audio.transcribe('sample/iPhone_14_Pro.mp3')
-    translated_transcript = transcribe_audio.translate('sample/iPhone_14_Pro.mp3', language="he")
-    transcribe_audio.save_output('sample', translated_transcript, 'sample/iPhone_14_Pro.mp3')
+    transcribe_audio('sample', 'iPhone_14_Pro.mp3')
