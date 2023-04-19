@@ -31,7 +31,8 @@ python main.py myvideo.mp4 --output_dir output --input_language English --output
 ```
 
 ## Demo
-You can try out a demo of the video subtitler [here!](https://huggingface.co/spaces/Kabriske/Multilingual_Video_Subtitler). [![demo status](https://img.shields.io/website-up-down-green-red/https/hf.space/gradioiframe/Kabriske/Multilingual_Video_Subtitler/+.svg?label=demo%20status)](https://huggingface.co/spaces/Kabriske/Multilingual_Video_Subtitler)
+You can try out a demo of the video subtitler [here!](https://huggingface.co/spaces/Kabriske/Multilingual_Video_Subtitler) 
+[![demo status](https://img.shields.io/website-up-down-green-red/https/hf.space/gradioiframe /Kabriske/Multilingual_Video_Subtitler/+.svg?label=demo%20status)]( https://huggingface.co/spaces/Kabriske/Multilingual_Video_Subtitler)    
 
 
 ![input video](imgs/demo_input.png)
