@@ -27,11 +27,16 @@ Make sure to replace `<path_to_video>` with the actual path to your video file, 
 
 For example, if you have saved your video file as `myvideo.mp4` in the same directory as your Python file, and you want to generate Spanish subtitles for it, you can use the following command:
 ```
-python main.py myvideo.mp4 --output_dir output --input_language 'English' --output_language 'Spanish'
+python main.py myvideo.mp4 --output_dir output --input_language English --output_language Spanish
 ```
 
 ## Demo
-You can try out a demo of the video subtitler [here - add link!]().
+You can try out a demo of the video subtitler [here!](https://huggingface.co/spaces/Kabriske/Multilingual_Video_Subtitler)
+
+
+[![demo status](https://img.shields.io/website-up-down-green-red/https/hf.space/gradioiframe/Kabriske/Multilingual_Video_Subtitler/+.svg?label=demo%20status)](https://huggingface.co/spaces/Kabriske/Multilingual_Video_Subtitler)    
+
+
 ![input video](imgs/demo_input.png)
 ![translated video](imgs/demo2.png)
 ![translated video](imgs/demo1.png)
