@@ -3,7 +3,6 @@ from typing import Dict
 
 import torch
 import whisper
-from whisper.utils import get_writer
 
 import numpy as np  # for counting parameters
 
@@ -19,7 +18,6 @@ class TranscribeAudio:
             f"Model is {'multilingual' if self.model.is_multilingual else 'English-only'} "
             f"and has {sum(np.prod(p.shape) for p in self.model.parameters()):,} parameters."
         )
-        self.options = {"max_line_width": 20, "max_line_count": 3, "highlight_words": True}
 
     def transcribe(self, audio_file_path: str, language: str = "en") -> Dict:
         log(f"Transcribing {audio_file_path} in {language}")
@@ -32,13 +30,14 @@ class TranscribeAudio:
         filename, ext = os.path.splitext(audio_file_path)
         directory = os.path.dirname(filename)
         log(f"Saving output to {directory} directory as {filename}.vtt")
+        srt_writer = whisper.utils.get_writer("srt", directory)
+        vtt_writer = whisper.utils.get_writer("vtt", directory)
+
         # Save as an SRT file
-        srt_writer = get_writer("srt", directory)
-        srt_writer(transcript_output, audio_file_path, self.options)
+        srt_writer(result=transcript_output, audio_path=audio_file_path)
 
         # Save as a VTT file
-        vtt_writer = get_writer("vtt", directory)
-        vtt_writer(transcript_output, audio_file_path, self.options)
+        vtt_writer(result=transcript_output, audio_path=audio_file_path)
 
         return f"{filename}.vtt"
 

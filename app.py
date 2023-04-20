@@ -4,6 +4,7 @@ from main import LANGS, Pipeline
 
 
 def video_identity(video, source_language="English", target_language="Spanish"):
+    pipeline = Pipeline()
     video_path = pipeline(video, "sample", source_language, target_language)
 
     return video_path
@@ -24,4 +25,4 @@ demo = gr.Interface(video_identity,
                     )
 
 pipeline = Pipeline()
-demo.launch()
+demo.queue(max_size=15).launch(show_error=True)
